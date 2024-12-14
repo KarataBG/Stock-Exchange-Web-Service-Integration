@@ -2,15 +2,41 @@
 @using System.Text.Json
 @model Web_Service_Integration.Pages.IntegrationModel
 @{
-	ViewData["Title"] = "Stock data";
-
+    ViewData["Title"] = "Stock Data";
 }
+<link rel="stylesheet" type="text/css" href="~/css/display.css">
 
+<h2>Example Stock Data</h2>
 
-<h2>Stock Data</h2>
+<div class="best-performer">
+    <h3>Best Performer: @Model.BestPerformer</h3>
+    <h4>Growth: @Model.BestGrowth</h4>
+</div>
 
-<h3>@Model.BestPerformer</h3>
-<h3>@Model.BestGrowth</h3>
+@if (Model.GrowthData != null && Model.GrowthData.Count > 0)
+{
+    <table class="growth-table">
+        <thead>
+            <tr>
+                <th>Stock Symbol</th>
+                <th>Growth</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model.GrowthData)
+            {
+                <tr>
+                    <td>@entry.Key</td>
+                    <td>@entry.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No data available.</p>
+}
 
 @* @if (Model.StockData != null) *@
 @* { *@
