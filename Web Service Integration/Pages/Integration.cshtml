@@ -1,0 +1,22 @@
+﻿@page
+@using System.Text.Json
+@model Web_Service_Integration.Pages.IntegrationModel
+@{
+	ViewData["Title"] = "Stock data";
+
+}
+
+
+<h2>Stock Data</h2>
+
+<h3>@Model.BestPerformer</h3>
+<h3>@Model.BestGrowth</h3>
+
+@* @if (Model.StockData != null) *@
+@* { *@
+@*     <pre>@Html.Raw(JsonSerializer.Serialize(Model.StockData, new JsonSerializerOptions { WriteIndented = true }))</pre> *@
+@* } *@
+@* else *@
+@* { *@
+@*     <p>No data available.</p> *@
+@* } *@
