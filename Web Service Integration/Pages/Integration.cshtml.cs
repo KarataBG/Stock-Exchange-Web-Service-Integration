@@ -76,7 +76,6 @@ namespace Web_Service_Integration.Pages
                         {
                             Decimal.TryParse(entry.Value.GetProperty("4. close").GetString(), out decimal closingPrice);
                             WeeklyData[symbol] = closingPrice;
-                            Console.WriteLine(closingPrice + "RERERERE");
                             break;
                         }
                     }
