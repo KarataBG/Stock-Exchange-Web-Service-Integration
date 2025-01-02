@@ -44,6 +44,7 @@ namespace Web_Service_Integration.Pages
             //    }
             //}
             string[] symbols = { "IBM", "AAPL", "GOOGL", "MSFT", "AMZN" };
+            //string[] symbols = { "IBM"};
 
             foreach (var symbol in symbols)
             {
@@ -70,10 +71,14 @@ namespace Web_Service_Integration.Pages
 
                     if (jsonData.TryGetValue("Weekly Time Series", out var weeklyData))
                     {
-                        var firstValue = weeklyData.First();
-
-                        var closingPrice = Convert.ToDecimal(firstValue.Value["4. close"]);
-                        WeeklyData[symbol] = closingPrice;
+                        
+                        foreach (var entry in weeklyData.EnumerateObject())
+                        {
+                            Decimal.TryParse(entry.Value.GetProperty("4. close").GetString(), out decimal closingPrice);
+                            WeeklyData[symbol] = closingPrice;
+                            Console.WriteLine(closingPrice + "RERERERE");
+                            break;
+                        }
                     }
                 }
                 catch (WebException webEx)
@@ -99,13 +104,14 @@ namespace Web_Service_Integration.Pages
                     string jsonResponse = client.DownloadString(queryUri);
                     var jsonData = JsonSerializer.Deserialize<Dictionary<string, dynamic>>(jsonResponse);
 
-                    if (jsonData.ContainsKey("Time Series (Daily)"))
+                    if (jsonData.TryGetValue("Time Series (Daily)", out var dailyData))
                     {
-                        var timeSeries = jsonData["Time Series (Daily)"];
-
-                        var firstValue = timeSeries.First();
-                        var closingPrice = Convert.ToDecimal(firstValue.Value["4. close"]);
-                        DailyData[symbol] = closingPrice; 
+                        foreach (var entry in dailyData.EnumerateObject())
+                        {
+                            Decimal.TryParse(entry.Value.GetProperty("4. close").GetString(), out decimal closingPrice);
+                            DailyData[symbol] = closingPrice;
+                            break;
+                        }
 
                     }
                 }
